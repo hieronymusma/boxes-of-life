@@ -1,0 +1,13 @@
+$box-size: 15px;
+
+.empty-box {
+    width: $box-size;
+    height: $box-size;
+    border: 1px solid #000;
+    float: left;
+};
+
+.used-box {
+    @extend .empty-box;
+    background-color: orange;
+}
