@@ -39,4 +39,10 @@ export class ConfigurationComponent {
   public now(): Date {
     return new Date();
   }
+
+  public min(): Date {
+    let now = this.now();
+    now.setFullYear(now.getFullYear() - 90);
+    return now;
+  }
 }
