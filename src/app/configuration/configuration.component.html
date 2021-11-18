@@ -13,6 +13,7 @@
       [matDatepicker]="picker"
       [value]="lifetimeSpan.birthday"
       (dateChange)="dateChanged($event)"
+      (click)="picker.open()"
       formControlName="dateOfBirth"
     />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
