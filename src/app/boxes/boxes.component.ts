@@ -1,31 +1,64 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { BirthdayLifetimeSpan } from '../birthday-lifetime-span';
 
 @Component({
   selector: 'app-boxes',
   templateUrl: './boxes.component.html',
   styleUrls: ['./boxes.component.scss']
 })
-export class BoxesComponent {
+export class BoxesComponent implements AfterViewChecked {
 
-  @Input() birthday: Date = this.now();
-  @Input() lifetime: number = 90;
+  @Input() lifetimeSpan: BirthdayLifetimeSpan | null = null;
+  @ViewChild('container') container!: ElementRef;
+
+  constructor(private changeDetector: ChangeDetectorRef) { }
+
+  public boxSize: number = 15;
 
   public get isVisible(): boolean {
-    return this.birthday != null;
+    return this.lifetimeSpan != null;
   }
 
   public get numberOfUsedWeeks(): Array<void> {
-    return Array(this.weeksBetween(this.birthday, this.now()));
+    if (this.lifetimeSpan) {
+      return Array(this.weeksBetween(this.lifetimeSpan.birthday, this.now()));
+    }
+    return [];
   } 
 
   public get numberOfUnusedWeeks(): Array<void> {
     return Array(this.weeksBetween(this.now(), this._endDate));
   }
 
-  get _endDate(): Date {
-    let endDate = new Date(this.birthday);
-    endDate.setFullYear(endDate.getFullYear() + this.lifetime);
-    return endDate;
+  private get _totalNumberOfBoxes(): number {
+    return this.numberOfUsedWeeks.length + this.numberOfUnusedWeeks.length;
+  }
+
+  private get _endDate(): Date {
+    if (this.lifetimeSpan) {
+      let endDate = new Date(this.lifetimeSpan.birthday);
+      endDate.setFullYear(endDate.getFullYear() + this.lifetimeSpan.lifetime);
+      return endDate;
+    }
+    return this.now();
+  }
+  
+  ngAfterViewChecked(): void {
+    this.resizeBoxes();
+  }
+
+  @HostListener('window:resize')
+  private resizeBoxes() {
+    if (!this.container) return;
+    
+    let width: number = this.container.nativeElement.clientWidth;
+    let height: number = window.innerHeight - this.container.nativeElement.offsetTop - 100;
+
+    let boxesSize = Math.sqrt(width * height / (this._totalNumberOfBoxes));
+    if (this.boxSize != boxesSize) {
+      this.boxSize = boxesSize;
+      this.changeDetector.detectChanges();
+    }
   }
 
   private weeksBetween(d1: Date, d2: Date): number {

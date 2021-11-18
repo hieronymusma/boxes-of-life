@@ -1,0 +1,22 @@
+<div class="d-flex flex-column" [formGroup]="dateForm">
+  <mat-form-field appearance="fill">
+    <mat-label>Choose your birthday</mat-label>
+    <input
+      matInput
+      [max]="now()"
+      [matDatepicker]="picker"
+      [value]="lifetimeSpan.birthday"
+      (dateChange)="dateChanged($event)"
+      formControlName="dateOfBirth"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker startView="multi-year"></mat-datepicker>
+    <mat-error *ngIf="dateForm.get('dateOfBirth')?.hasError('required')">
+        Valid date required.
+    </mat-error>
+  </mat-form-field>
+</div>
+
+<div class="flex-d">
+  <button type="button" class="btn btn-success" (click)="save()" [disabled]="!dateForm.valid">Save</button>
+</div>

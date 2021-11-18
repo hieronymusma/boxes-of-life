@@ -1,4 +1,4 @@
-<div *ngIf="isVisible">
-    <div *ngFor="let _ of numberOfUsedWeeks" class="used-box"></div>
-    <div *ngFor="let _ of numberOfUnusedWeeks" class="empty-box"></div>
+<div class="container" *ngIf="isVisible" #container>
+    <div *ngFor="let _ of numberOfUsedWeeks" class="used-box" [style.width.px]="boxSize" [style.height.px]="boxSize"></div>
+    <div *ngFor="let _ of numberOfUnusedWeeks" class="empty-box" [style.width.px]="boxSize" [style.height.px]="boxSize"></div>
 </div>
