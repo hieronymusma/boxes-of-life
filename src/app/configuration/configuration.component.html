@@ -8,6 +8,7 @@
     <mat-label>Choose your birthday</mat-label>
     <input
       matInput
+      readonly
       [max]="now()"
       [matDatepicker]="picker"
       [value]="lifetimeSpan.birthday"
