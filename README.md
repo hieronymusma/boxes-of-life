@@ -1,5 +1,6 @@
 # BoxesOfLife
 
+[![Angular Build](https://github.com/hieronymusma/boxes-of-life/actions/workflows/angular-build.yml/badge.svg)](https://github.com/hieronymusma/boxes-of-life/actions/workflows/angular-build.yml)  
 Boxes of Life draws a box for each week of a 90-year life.
 You can enter your birthday and it shows how many boxes you already lived.  
 I hope this let you stay motivated through out your life and prevents you from procrastination.  
